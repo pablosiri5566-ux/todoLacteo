@@ -1,0 +1,338 @@
+[
+  {
+    "id": "xpedia-tm-360-ix",
+    "name": "Xpedia TM 360 IX",
+    "description": "Xpedia 360IX es una plataforma rotativa interior. Esta plataforma es la combinación de las características más destacadas de los diseños de casillas paralelas, espina de pescado y tándem, proporcionando lo mejor de un ordeño relajado de la vaca y un movimiento rápido de entrada y salida de vacas. Su diseño único zigzag del piso proporciona un posicionamiento ideal para el operario. En combinación con el equipo de ordeño legendario de BouMatic, esta plataforma marca el estándar de rendimiento de la sala. El diseño único de la plataforma puede extenderse 4 posiciones de casillas, lo cual ofrece una buena oportunidad de inversión a largo plazo",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 1
+  },
+  {
+    "id": "streamline-tm-360ex",
+    "name": "Streamline TM 360EX",
+    "description": "Este sistema rotativo ocupa un lugar entre nuestros modelos de rotativas, el Xcalibur 360EX y el Xpedia 360EX . Con ventaja de la misma plataforma y armazón inferior que en el modelo Xcalibur, este sistema rotativo es la opción segura para los productores de leche que desean ordeñar hatos de tamaño medio y poder regresar a la granja o a reunirse con sus familias. Este sistema hace accesible, la tecnología de servicio pesado, para toda granja lechera con 250 hasta 2000 vacas.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 2
+  },
+  {
+    "id": "xcalibur-tm-360ex",
+    "name": "Xcalibur TM 360EX",
+    "description": "Es lo último en sistemas rotativos de ordeño . Construido para ordeño continuo, durante todo el día, el sistema Xcalibur 360EX es de construcción robusta y de diseño de precisión para la obtención de un rendimiento de producción inigualable y para máxima eficiencia de la operación lechera. Su sistema motriz, pivote central y unión giratoria, rodillos de nilón y la enorme doble viga de riel de la rueda motriz son de lo más resistentes y confiables en la industria. Un diseño robusto, contemporáneo y de construcción resistente hacen del Xcalibur 360EX un producto de gran valor y durabilidad.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 3
+  },
+  {
+    "id": "escorter-100",
+    "name": "Escorter 100",
+    "description": "Escorter 100 es un arreador de vacas diseñado para las granjas lecheras familiares de hoy. Con un accionador eléctrico eficiente en el consumo de energía, el Escorter 100 utiliza un control inteligente que mantiene siempre la puerta en una posición perpendicular. Con flexibilidad de operación, sea con una puerta fija o con una móvil, mueve las vacas hacia la sala de una manera suave y segura. Puede operar en una área de espera inclinada, además que su diseño modular permite adaptarse a una construcción nueva o a una ya existente sin la necesidad de partes especiales. El operario del ordeño podrá enfocar en la tarea de ordeñar vacas en vez de empujarlas hacia la sala",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 4
+  },
+  {
+    "id": "fp-1-feed-pusher",
+    "name": "FP-1 Feed Pusher",
+    "description": " más leche. Diseño robusto de acero inoxidable. Seguro y confiable, si la máquina pierde contacto con el imán, se detiene. Programación fácil de usar y personalizada para las necesidades de la granja.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 5
+  },
+  {
+    "id": "cepillo-de-vaca",
+    "name": "cepillo de vaca",
+    "description": "Categoría de producto: ambiente animal",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 7
+  },
+  {
+    "id": "smartdairy-milk-harvest-module",
+    "name": "SmartDairy Milk Harvest Module",
+    "description": "oftware registra toda la información de la sala y la coloca en informes fáciles de leer para que los productores puedan administrar sus lecherías y diagnosticar problemas de manera rápida y eficiente!",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 8
+  },
+  {
+    "id": "smartdairy-milk-harvest-module-1",
+    "name": "SmartDairy Milk Harvest Module",
+    "description": "",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 9
+  },
+  {
+    "id": "boumatic-realtime-activity",
+    "name": "BouMatic RealTime Activity",
+    "description": " de instalar, fácil de usar y es completamente independiente, por lo que puede concentrarse en criar a sus vacas antes y con mayor precisión, maximizando así el potencial y las ganancias de su rebaño.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 10
+  },
+  {
+    "id": "airstar-dsl-bomba-de-vac-o",
+    "name": "AirStar DSL – Bomba de Vacío",
+    "description": "Mejorando la Calidad de un Producto con Diseño Probado Las bombas AirStar DSL continúan con la tradición de BouMatic de proveer productos innovadores a la industria lechera. Diseñadas para la Instalación, por parte del Distribuidor, en un bastidor o base de soporte adecuados. Disponibilidad tanto como un conjunto completo para alimentación de vacío o como solo una bomba de vacío.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 12
+  },
+  {
+    "id": "bouvac-reguladores-de-vac-o",
+    "name": "BouVac - Reguladores de Vacío",
+    "description": "Un regulador de vacío con capacidad para sistemas de vacío de cualquier tamaño, de 500 L/Min a 10,000 L/Min. Reguladores BouVac de alta eficiencia que están disponibles en tres conjuntos ValuPack o solo como regulador. Cada conjunto ValuPack incluyen uno o más conjuntos de filtración de aire con elementos de filtros remplazables y un kit de Instalación. La conservación de la estabilidad del vacío en el colector resulta en un ordeño suave y rápido. Una vaca tranquila produce beneficios de calidad de la leche y de rendimiento de producción.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 13
+  },
+  {
+    "id": "optiflo-cf-control-de-bomba-de-leche",
+    "name": "OptiFlo CF - Control de Bomba de Leche",
+    "description": "El único sistema de control de descarga de leche, de frecuencia variable verdadera, para un máximo de eficiencia en los sistemas de enfriamiento. El Sistema OptiFlo CF utiliza la única sonda de flotador simple y continua totalmente aprobada por 3A. La sonda de flotador mide la presión del sistema de descarga de leche para mantener un flujo de leche óptimo y constante a través del sistema de enfriamiento. Usted ya no se conformará con controles de bomba de leche de velocidad variable antiguos que desperdician energía a causa de ineficiencia de las bombas de velocidad prefija.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 14
+  },
+  {
+    "id": "hiflo-evolution-pulsador",
+    "name": "HiFlo Evolution - Pulsador",
+    "description": "Durable, confiable de fácil mantenimiento La unidad completa de HiFlo Evolution se compone de ocho partes diferentes. Fácil de instalar, de limpiar y de desarmar para mantenimiento. No hay necesidad de herramientas. Se conecta y desconecta rápidamente a la línea de vacío. Los ahorros del tiempo de instalar y de mantenimiento se traducen en menor costo de mano de obra y mayor rentabilidad a los productores, quienes tendrán mucho gusto de invertir este dinero en otros productos de BouMatic.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 15
+  },
+  {
+    "id": "flo-star-max-colector-de-leche",
+    "name": "Flo-Star MAX – Colector de Leche",
+    "description": "Rendimiento, Capacidad, Durabilidad, Peso Reducido, Ordeñabilidad y el Operario y Adaptación de la Vaca para operación de su sala durante todo el día. Con acción de descarga superior de un colector de descarga inferior. El sumidero de salida encapotada único del Flo-Star MAX causa una acción de vaciado similar a la que existe en los colectores de descarga superior. Durable pero de construcción liviana es una ventaja tanto para el operario como para la vaca.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 17
+  },
+  {
+    "id": "flo-star-xtreme",
+    "name": "Flo-Star Xtreme",
+    "description": "eme provoca una acción de vaciado mientras minimiza las fluctuaciones de vacío de la garra. La construcción duradera pero liviana es una ventaja tanto para el ordeñador como para la vaca. Perfil bajo.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 18
+  },
+  {
+    "id": "magnum-tl-turbo-liner-350tl-450tl-550tl",
+    "name": "Magnum TL « Turbo » Liner (350TL / 450TL / 550TL)",
+    "description": "pta a cada estilo de ordeño con menos resbalones y graznidos, extracción más rápida de la leche y mínimo tiempo de unidad para vacas y tetinas de todos los tamaños. Vida útil mejorada de 2400 ordeños.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 20
+  },
+  {
+    "id": "magnum-450tl",
+    "name": "Magnum 450TL",
+    "description": "Categoría del Producto: Pezoneras",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 21
+  },
+  {
+    "id": "magnum-flex-40-50-60-pezoneras",
+    "name": "Magnum Flex (40 / 50 / 60) - Pezoneras",
+    "description": "Pezoneras Magnum Flex – las pezoneras BouMatic líderes en la industria para un mejor rendimiento del sistema y una producción más elevada.. Desarrolladas alrededor del principio del ordeño de BouMatic que es el de ordeñar la leche disponible en la vaca con Suavidad, Rapidez y en su Totalidad, la serie de pezoneras Magnum Flex contiene una pezonera para cualquier estilo de ordeño con menos casos de deslizamientos y chirridos, más rápida extracción de la leche y menor tiempo de colocado el colector para vacas y pezones de cualquier tamaño. .",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 22
+  },
+  {
+    "id": "smartdairy-m-dulo-de-orde-o-del-la-leche",
+    "name": "SmartDairy - Módulo de Ordeño del La Leche",
+    "description": "El Software de Ordeño de la Leche SmartDairy es el centro de la Sala BouMatic. Este módulo permite a los productores lecheros personalizar fácilmente la configuración de su sala, desde flujos de leche y retardos de retirador a velocidad/relación de pulsación, levante del colector y otros más. ¡Además, hace interfaz con todos los demás Módulos del Software SmartDairy para tener un sistema completo de administración del hato! ¡El Software SmartDairy de Ordeño de la Leche registra toda la información de la sala y los coloca en informes fácil de leerlos para que los productores puedan administrar sus granjas y diagnosticar problemas con rapidez y eficiencia!",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 23
+  },
+  {
+    "id": "smartdairy-m-dulo-de-separaci-n-de-vacas",
+    "name": "SmartDairy – Módulo de Separación de Vacas",
+    "description": "Sea como un sistema autónomo o como parte del sistema completo de administración SmartDairy, el módulo de separación de vacas puede automatizar una de las actividades más agotadoras que consume mucho tiempo en la granja lechera. Funciona con los aretes RFID, con las tarjetas HeatSeeker II para cuello o para patas, o con las tarjetas rojas de ID de BouMatic, permitiendo separación de vacas sin estrés y sin interrumpir las rutinas del ordeño. El software de Separación SmartDairy ofrece flexibilidad inigualable con preparación de listas de separación, para que el productor pueda capturar a las vacas que quiera cuando las quiera.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 24
+  },
+  {
+    "id": "smart-dairy-milk-harvest-module",
+    "name": "Smart Dairy Milk Harvest Module",
+    "description": "",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 25
+  },
+  {
+    "id": "pulsemd",
+    "name": "PulseMD",
+    "description": "stán en riesgo Supervisa el rendimiento del punto de leche 24/7 Sistema de monitoreo de punto de leche independiente que monitorea, alerta e informa cualquier problema fuera de los parámetros normales",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 28
+  },
+  {
+    "id": "pulse-md",
+    "name": "Pulse MD",
+    "description": "",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 29
+  },
+  {
+    "id": "separador-indicador-de-rendimiento-de-leche-ami-5550",
+    "name": "Separador indicador de rendimiento de leche AMI 5550",
+    "description": "estrictivo para reducir la fluctuación de vacío y la caída de vacío, las vacas se ordeñan más rápido y más seguro. Puede sentirse bien sabiendo que el 5550 será tan cuidadoso con sus vacas como usted.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 30
+  },
+  {
+    "id": "separador-indicador-de-rendimiento-de-leche-ami-5550-1",
+    "name": "Separador indicador de rendimiento de leche AMI 5550",
+    "description": "",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 31
+  },
+  {
+    "id": "viewpoint-control-en-el-puesto-del-orde-o",
+    "name": "ViewPoint – Control en el Puesto del Ordeño",
+    "description": "El ViewPoint ubicado en las casillas proporciona mando y control completo del proceso total del ordeño a través del sistema SmartDairy pero sin necesidad de acceso individual en cada puesto de ordeño. Las rutinas y alarmas están igualmente provistas a través de Visi- Dome LED. La posición de casillas, números de vacas, producción y flujos de leche a tiempo real siguen disponibles a través de la PC o de la Pantalla Táctil ‘TouchScreen’.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 32
+  },
+  {
+    "id": "viewpoint-milk-point-control",
+    "name": "ViewPoint Milk Point Control",
+    "description": "",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 33
+  },
+  {
+    "id": "touchpoint-control-en-el-puesto-de-orde-o",
+    "name": "TouchPoint – Control en el Puesto de Ordeño",
+    "description": "El teclado y la pantalla del TouchPoint proporcionan total mando y control de todo el proceso del ordeño en cada puesto de ordeño. En la pantalla se muestran la posición de la casilla, el número de vaca, la producción y flujos de leche a tiempo real, además emite advertencias de desviaciones de los niveles normales de ordeño de las vacas. Ponga los mandos, controle la pulsación, revise los datos o utilice funciones especiales del programa, usando el teclado del TouchPoint.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 34
+  },
+  {
+    "id": "control-de-leche-touchpoint",
+    "name": "Control de Leche TouchPoint",
+    "description": "",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 35
+  },
+  {
+    "id": "enfriadores-de-placas",
+    "name": "Enfriadores de Placas",
+    "description": "Diseño único de placas que minimiza la caída de presión mientras maximiza la transferencia de calor Con muchos tamaños a escoger, BouMatic tiene el enfriador de placas adecuado para toda aplicación Diseñados para facilidad de inspección y limpieza Tecnología de transferencia de calor de lo más eficiente encontrada en la industria lechera de hoy Enfriadores de placas de un solo refrigerante que reducen la carga térmica en aplicaciones con tanque de enfriamiento Enfriador de placas de doble refrigerante enfrían eficientemente la leche en aplicaciones de enfriamiento instantáneo en combinación con un chiller",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 36
+  },
+  {
+    "id": "placa-enfriadora",
+    "name": "Placa Enfriadora",
+    "description": "ades. Desarrollo tecnológico para su mantenimiento y fácil de limpiar. Mayor tecnología en la trasferencia de calor para la industria lechera Capacidad de expansion de platos en todos nuetros modelos.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 37
+  },
+  {
+    "id": "glacier-tanques-enfriadores-de-leche",
+    "name": "Glacier –Tanques Enfriadores de Leche",
+    "description": "Construcción de la más alta calidad Resistente y durable para muchos años de servicio eficiente Construcción de acero inoxidable de gran espesor Diseño de precisión para cumplir o superar todas las recomendaciones y requerimientos de la industria Úselo con una Válvula Electrónica de Expansión para aumentar la eficiencia operacional hasta un14% Úselo con unidades de condensación BouMatic que proporcionan mayor protección del sistema que ninguna otra marca",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 38
+  },
+  {
+    "id": "glacierchill",
+    "name": "GlacierChill",
+    "description": "a Controles Ke2Therm con capacidad de hasta 4 compresores. Información en tiempo real y acceso vía remota para monitoreo de alarmas. Diseño Modular y expandible para futuros crecimientos de la granja.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 39
+  },
+  {
+    "id": "thermastor-recuperaci-n-de-calor",
+    "name": "ThermaStor – Recuperación de Calor",
+    "description": "Disminuye el costo de calentamiento del agua hasta un 65% Rendimiento de Inversión de dos años o menos en la mayoría de las instalaciones Muchos lugares a través del mundo ofrecen incentivos económicos por uso de dispositivos de eficiencia del consumo de energía, lo cual acelera el rendimiento de inversión del sistema ThermaStor Mejora la eficiencia del sistema de enfriamiento Conserva su eficiencia con un mínimo de mantenimiento Sin piezas móviles que puedan desgastarse o fallar",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 40
+  },
+  {
+    "id": "guardian-ii",
+    "name": "Guardian II",
+    "description": "Reconocida en la industria como un producto líder de categoría Limpia y desinfecta automáticamente después de cada jornada de ordeño Control programable con ciclos de lavado de preferencia especial Pantalla gráfica grande que muestra el estado de ciclos, la temperatura de las soluciones de lavado, y asiste con la programación Cajas herméticas de gran durabilidad Operación segura – Las bombas peristálticas se montan en cajas herméticas separadas para reducir el manejo de los químicos Excelente para salas 2 x 12 o de mayor tamaño",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 41
+  },
+  {
+    "id": "guardian-supreme",
+    "name": "Guardian Supreme",
+    "description": "Un equipo similar al Guardian II, Guardian Supreme es un control de lavado de alta calidad, de características múltiples a un precio competitivo Control electrónico programable que permite un ciclo de lavado con preferencias especiales Cajas herméticas de acero inoxidable de gran durabilidad Operación segura – Las bombas peristálticas se montan en cajas herméticas separadas para reducir el manejo de los químicos Habilidad de funcionamiento como el Control Principal del sistema en Modo de Ordeño Tres tiempos de inicio de desinfección automáticos Excelente para salas de tamaño hasta 2X10",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 42
+  },
+  {
+    "id": "stepguardian-ba-o-autom-tico-de-pezu-as",
+    "name": "StepGuardian – Baño Automático de Pezuñas",
+    "description": "StepGuardian es un sistema automático de baño de pezuñas que mejora la salud de las pezuñas del hato al mismo tiempo que ahorra tiempo, mano de obra y el costo de los químicos. El tratamiento de las pezuñas es mejor, por el ciclo automático que dispensa soluciones efectivas y oportunas, al mismo tiempo que disminuye el desperdicio de químicos mediante una dosis de medida de precisión. Además, reduce el riesgo de contacto con químicos por parte de los operarios.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 43
+  },
+  {
+    "id": "typhoon-tm",
+    "name": "Typhoon TM",
+    "description": "Typhoon es un raspador eléctrico, de accionamiento mediante un cable, que limpiará su establo con facilidad y eficiencia. Es un producto complementario que acentúa la manera como se cumple en la sala con el principio fundamental de BouMatic de ‘suavidad, rapidez y en su totalidad’. Manteniendo limpias a las vacas, la rutina del ordeño mejora considerablemente.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 44
+  },
+  {
+    "id": "gemini-up-simple-y-doble",
+    "name": "Gemini up simple y doble.",
+    "description": "Tenemos dos opciones disponible de robot, el simple para una vaca y el doble, para dos vacas ambos ordenan por detrás. Viene pre ensamblado, es muy simple y robusto. Se puede actualizar el robot desde el primer modelo hasta el ultimo somos la única compañía que ofrece esta opción.",
+    "pdf": "Product Card-ESpanol Final boumatic (1).pdf",
+    "page": 45
+  },
+  {
+    "id": "milk-taxi",
+    "name": "Milk Taxi",
+    "description": "Es un producto que permite preparar y distribuir el alimento para los terneros, pasteuriza la leche y la dosifica en función a la necesidad de cada ternero y puede mezclar sustituto y distribuirlo.",
+    "pdf": "score card productos externos.pdf",
+    "page": 1
+  },
+  {
+    "id": "amamantadora",
+    "name": "amamantadora",
+    "description": "El calf feeder esta compuesto por dos componentes que son la unidad central que se llama calf expert y una estación higienizadora que es donde el ternero amamanta. Este producto alimenta con leche o sustituto de forma automática y adapta la alimentación del ternero de acuerdo con cada sistema productivo.",
+    "pdf": "score card productos externos.pdf",
+    "page": 2
+  },
+  {
+    "id": "camas-de-goma-para-establos",
+    "name": "Camas de goma para establos",
+    "description": "Tenemos una variedad de camas de goma virgen razón por la cual evita erosiones y lastimaduras en los codos y rodillas de las vacas. Hay tres tipos de camas. Colchón y la cama simple, colchón y la cama con un colchón de agua y por ultimo el colchón y la cama con un colchón de agua refrigerado. Por este motivo el manejo de las camas se simplifica mucho.",
+    "pdf": "score card productos externos.pdf",
+    "page": 3
+  },
+  {
+    "id": "pisos-de-goma-para-las-granajas",
+    "name": "Pisos de goma para las granajas.",
+    "description": "Piso de goma que garantiza el confort animal y evita el deslizamiento o resbalada de las vacas. Construido en goma virgen de 22 mm de espesor con rombos resaltados",
+    "pdf": "score card productos externos.pdf",
+    "page": 4
+  },
+  {
+    "id": "biodigestores",
+    "name": "Biodigestores",
+    "description": "Tenemos 2 tipos de biodigestores para el rubro. El primero se utiliza para los galpones con flushing que se utiliza agua verde, es muy simple no necesita mezclador, no necesita calentamiento y genera entre 2/3 kw por vaca por día al no usar calentamiento en invierno cae un poco su producción de energía El segundo biodigestor consume toda la bosta tal cual sin agregado de agua, genera entre5/7 kw por vaca por día y necesita un proceso de mezclado y calentamiento",
+    "pdf": "score card productos externos.pdf",
+    "page": 5
+  },
+  {
+    "id": "heitrac-joker",
+    "name": "heitrac joker.",
+    "description": "Es un carro autopropulsado a batería, con un sistema hidráulico que permite hacer la limpieza de las camas en freestall, l con un cepillo que saca la bosta de arriba de las camas y permite agregar cama o cal a las mismas. También tiene un pequeño scraper que va limpiando y arrastrando la bosta.",
+    "pdf": "score card productos externos.pdf",
+    "page": 6
+  },
+  {
+    "id": "cocina-con-cinta-distribuidora",
+    "name": "Cocina con cinta distribuidora.",
+    "description": "El producto esta conformado por una cocina que se configura con una o mas reservas de comida , estas son para silo de pastura o maíz, tambíen tienen sistemas para agregar granos en un mixer estacionario que pesa y de ahí se distribuye dentro o fuera de galpones para las vacas. La cinta va por encima de la cabeza de las vacas y con un brazo distribuye la alimentación",
+    "pdf": "score card productos externos.pdf",
+    "page": 7
+  },
+  {
+    "id": "tanque-de-frio-serap-horizontal",
+    "name": "Tanque de frio Serap horizontal",
+    "description": "Es un tanque moderno de la fabrica mas grande de Europa en la fabricación de tanque de frio adecuado a las normas europeas. Viene con programador de lavado, con frio de emergencia y una válvula que cierra automáticamente la salida de leche por si alguien se la olvido abierta y medidor electrónico de leche",
+    "pdf": "score card productos externos.pdf",
+    "page": 8
+  },
+  {
+    "id": "tanque-de-frio-serap-vertical",
+    "name": "Tanque de frio Serap vertical",
+    "description": "Es un tanque moderno de la fabrica mas grande de Europa en la fabricación de tanque de frio adecuado a las normas europeas. Tiene capacidad hasta 40000 litros tiene placas evaporizadoras que se agregan de acuerdo a la cantidad de litros que es necesario enfriar por hora",
+    "pdf": "score card productos externos.pdf",
+    "page": 9
+  }
+]

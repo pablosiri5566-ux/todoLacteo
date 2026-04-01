@@ -1,0 +1,170 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../lib/firebase";
+
+interface Product {
+  id: string;
+  name: string;
+  pdf: string;
+}
+
+export default function Envio() {
+  const router = useRouter();
+  const [client, setClient] = useState<any>(null);
+  const [cartItems, setCartItems] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const savedClient = sessionStorage.getItem("clientData");
+    const savedCart = sessionStorage.getItem("cart");
+
+    if (savedClient) {
+      setClient(JSON.parse(savedClient));
+    } else {
+      router.push("/");
+      return;
+    }
+
+    if (savedCart) {
+      const cartIds: string[] = JSON.parse(savedCart);
+      fetch('/data/products.json')
+        .then(res => res.json())
+        .then((data: Product[]) => {
+          const items = data.filter(p => cartIds.includes(p.id));
+          setCartItems(items);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  }, [router]);
+
+  const saveVisitToCloud = async () => {
+    if (sessionStorage.getItem("visitSaved")) return;
+    
+    const newVisit = {
+      date: new Date().toISOString(),
+      client,
+      products: cartItems
+    };
+
+    try {
+      await addDoc(collection(db, "visitas"), newVisit);
+    } catch (e) {
+      console.error("Error al guardar en Firebase, usando almacenamiento local:", e);
+      const history = JSON.parse(localStorage.getItem("visits") || "[]");
+      localStorage.setItem("visits", JSON.stringify([...history, { id: Date.now().toString(), ...newVisit }]));
+    }
+
+    sessionStorage.setItem("visitSaved", "true");
+  };
+
+  const generateMessageText = (isWhatsapp: boolean) => {
+    const baseUrl = window.location.origin;
+    let text = `Hola ${client.name},\n\nGracias por visitarnos en nuestro stand de TodoLactea. Te compartimos la información técnica de los productos de tu interés:\n\n`;
+    
+    cartItems.forEach(item => {
+      text += `✅ ${isWhatsapp ? '*' : ''}${item.name}${isWhatsapp ? '*' : ''}\nVer ficha técnica: ${baseUrl}/productos/${item.id}\n\n`;
+    });
+    
+    text += `Estamos a tu entera disposición para resolver cualquier duda.\n\nAtentamente,\n${isWhatsapp ? '*' : ''}El equipo de Dairy Solutions${isWhatsapp ? '*' : ''}\n📧 email: dairy@dairy.com.ar\n📱 te: +5491169074492`;
+    return text;
+  }
+
+  const handleWhatsApp = async () => {
+    if (cartItems.length === 0) return;
+    await saveVisitToCloud();
+    
+    const cleanPhone = client.phone?.replace(/[\s\+\-]/g, '') || '';
+    const text = generateMessageText(true);
+    const wplink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`;
+    window.open(wplink, '_blank');
+  };
+
+  const handleEmail = async () => {
+    if (cartItems.length === 0) return;
+    await saveVisitToCloud();
+    
+    const text = generateMessageText(false);
+    const mailto = `mailto:${client.email}?subject=Catálogo TodoLactea - Dairy Solutions&body=${encodeURIComponent(text)}`;
+    window.location.href = mailto;
+  };
+
+  const clearSession = async () => {
+    await saveVisitToCloud();
+    sessionStorage.removeItem("clientData");
+    sessionStorage.removeItem("cart");
+    sessionStorage.removeItem("visitSaved");
+    router.push("/");
+  };
+
+  if (loading || !client) return null;
+
+  return (
+    <div className="animate-fade-in" style={{ padding: '2rem 0' }}>
+      <h1 style={{ color: 'var(--primary)', marginBottom: '1.5rem', textAlign: 'center' }}>Resumen y Envío</h1>
+      
+      <div className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem' }}>
+        <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem', fontSize: '1.1rem' }}>Datos del Visitante</h3>
+        <p style={{ marginBottom: '0.4rem' }}><strong>Nombre:</strong> {client.name}</p>
+        <p style={{ marginBottom: '0.4rem' }}><strong>Email:</strong> {client.email}</p>
+        <p style={{ marginBottom: '0.4rem' }}><strong>Teléfono:</strong> {client.phone}</p>
+        {client.establishmentName && <p style={{ marginBottom: '0.4rem' }}><strong>Establecimiento:</strong> {client.establishmentName}</p>}
+        {client.establishmentZone && <p style={{ marginBottom: '0.4rem' }}><strong>Zona:</strong> {client.establishmentZone}</p>}
+        {client.farmSize && <p style={{ marginBottom: '0.4rem' }}><strong>Tamaño:</strong> {client.farmSize}</p>}
+      </div>
+
+      <div className="glass-panel" style={{ padding: '2rem', marginBottom: '2.5rem' }}>
+        <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem', fontSize: '1.1rem' }}>
+          Productos Separados ({cartItems.length})
+        </h3>
+        {cartItems.length === 0 ? (
+          <p style={{ color: 'var(--text-muted)' }}>No has seleccionado ningún producto aún.</p>
+        ) : (
+          <ul style={{ listStyle: 'none' }}>
+            {cartItems.map(item => (
+              <li key={item.id} style={{ margin: '0.75rem 0', display: 'flex', gap: '0.5rem', alignItems: 'flex-start', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>
+                <span style={{ color: 'var(--primary)' }}>📄</span> 
+                <span style={{ fontWeight: 500 }}>{item.name}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <button 
+          onClick={handleWhatsApp} 
+          disabled={cartItems.length === 0} 
+          className="btn btn-primary" 
+          style={{ fontSize: '1.1rem', background: '#25D366', color: 'white', border: 'none' }}
+        >
+          📱 Enviar por WhatsApp
+        </button>
+        
+        <button 
+          onClick={handleEmail}
+          disabled={cartItems.length === 0} 
+          className="btn btn-outline" 
+          style={{ fontSize: '1.1rem', borderColor: 'var(--primary)', color: 'var(--primary)' }}
+        >
+          📧 Enviar por Email
+        </button>
+      </div>
+
+      <div style={{ marginTop: '3.5rem', display: 'flex', justifyContent: 'space-between', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>
+        <Link href="/productos" className="btn btn-outline" style={{ fontSize: '0.9rem', width: '100%', padding: '1rem' }}>
+          Volver al Catálogo
+        </Link>
+        <button onClick={clearSession} className="btn btn-outline" style={{ fontSize: '0.9rem', color: '#ff6b6b', borderColor: '#ff6b6b', width: '100%', padding: '1rem' }}>
+          Cerrar Módulo y Atender al Siguiente
+        </button>
+      </div>
+    </div>
+  );
+}
