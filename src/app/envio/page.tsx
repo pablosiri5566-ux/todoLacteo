@@ -53,15 +53,18 @@ export default function Envio() {
       products: cartItems
     };
 
-    try {
-      await addDoc(collection(db, "visitas"), newVisit);
-    } catch (e) {
-      console.error("Error al guardar en Firebase, usando almacenamiento local:", e);
-      const history = JSON.parse(localStorage.getItem("visits") || "[]");
-      localStorage.setItem("visits", JSON.stringify([...history, { id: Date.now().toString(), ...newVisit }]));
-    }
+    // Immediate local backup
+    const history = JSON.parse(localStorage.getItem("visits") || "[]");
+    localStorage.setItem("visits", JSON.stringify([...history, { id: Date.now().toString(), ...newVisit }]));
 
-    sessionStorage.setItem("visitSaved", "true");
+    try {
+      // Background save to Firestore
+      addDoc(collection(db, "visitas"), newVisit).then(() => {
+        sessionStorage.setItem("visitSaved", "true");
+      });
+    } catch (e) {
+      console.error("Error al disparar guardado en Firebase:", e);
+    }
   };
 
   const generateMessageText = (isWhatsapp: boolean) => {
@@ -69,34 +72,46 @@ export default function Envio() {
     let text = `Hola ${client.name},\n\nGracias por visitarnos en nuestro stand de TodoLactea. Te compartimos la información técnica de los productos de tu interés:\n\n`;
     
     cartItems.forEach(item => {
-      text += `✅ ${isWhatsapp ? '*' : ''}${item.name}${isWhatsapp ? '*' : ''}\nVer ficha técnica: ${baseUrl}/productos/${item.id}\n\n`;
+      text += `✅ ${isWhatsapp ? '*' : ''}${item.name}${isWhatsapp ? '*' : ''}\n🔗 Ver ficha: ${baseUrl}/productos/${item.id}\n\n`;
     });
     
-    text += `Estamos a tu entera disposición para resolver cualquier duda.\n\nAtentamente,\n${isWhatsapp ? '*' : ''}El equipo de Dairy Solutions${isWhatsapp ? '*' : ''}\n📧 email: dairy@dairy.com.ar\n📱 te: +5491169074492`;
+    text += `Estamos a tu entera disposición para resolver cualquier duda.\n\nAtentamente,\n${isWhatsapp ? '*' : ''}El equipo de Dairy Solutions${isWhatsapp ? '*' : ''}\n📧 email: dairy@dairy.com.ar\n📱 tel: +54 9 11 6907-4492`;
     return text;
   }
 
-  const handleWhatsApp = async () => {
+  const handleWhatsApp = () => {
     if (cartItems.length === 0) return;
-    await saveVisitToCloud();
+    saveVisitToCloud(); // Fire and forget (it saves to local first)
     
-    const cleanPhone = client.phone?.replace(/[\s\+\-]/g, '') || '';
+    // Improved phone cleaning for Argentina
+    let cleanPhone = client.phone?.replace(/[\s\+\-]/g, '') || '';
+    
+    // If it starts with 11, 249, 351, etc (Argentine area codes) and lacks 549
+    if (cleanPhone.length === 10 && !cleanPhone.startsWith('54')) {
+        cleanPhone = '549' + cleanPhone;
+    } else if (cleanPhone.length === 11 && cleanPhone.startsWith('9')) {
+        cleanPhone = '54' + cleanPhone;
+    } else if (cleanPhone.length === 11 && !cleanPhone.startsWith('54')) {
+        // likely 011... or 15... but already has some length, just ensure 549
+        cleanPhone = '549' + cleanPhone.substring(cleanPhone.startsWith('0') ? 1 : 0);
+    }
+
     const text = generateMessageText(true);
     const wplink = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`;
     window.open(wplink, '_blank');
   };
 
-  const handleEmail = async () => {
+  const handleEmail = () => {
     if (cartItems.length === 0) return;
-    await saveVisitToCloud();
+    saveVisitToCloud();
     
     const text = generateMessageText(false);
     const mailto = `mailto:${client.email}?subject=Catálogo TodoLactea - Dairy Solutions&body=${encodeURIComponent(text)}`;
     window.location.href = mailto;
   };
 
-  const clearSession = async () => {
-    await saveVisitToCloud();
+  const clearSession = () => {
+    saveVisitToCloud();
     sessionStorage.removeItem("clientData");
     sessionStorage.removeItem("cart");
     sessionStorage.removeItem("visitSaved");
