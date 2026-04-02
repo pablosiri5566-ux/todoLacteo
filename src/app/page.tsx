@@ -8,6 +8,7 @@ import Link from "next/link";
 export default function Home() {
   const router = useRouter();
   const [formData, setFormData] = useState({ 
+    date: new Date().toLocaleDateString('es-AR'),
     name: "", 
     email: "", 
     phone: "",
@@ -44,6 +45,17 @@ export default function Home() {
         </p>
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500 }}>Fecha de Registro</label>
+            <input 
+              type="text" 
+              className="input-field" 
+              style={{ background: 'rgba(255,255,255,0.02)', color: 'var(--text-muted)' }}
+              value={formData.date}
+              readOnly
+            />
+          </div>
+
           <div>
             <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500 }}>Nombre Completo *</label>
             <input 

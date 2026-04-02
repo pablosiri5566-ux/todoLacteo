@@ -107,7 +107,10 @@ export default function VisitasPage() {
 
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
         <button onClick={exportCSV} disabled={visits.length === 0 || loading} className="btn btn-primary" style={{ flex: 1 }}>
-          📥 Exportar CSV de la Base de Datos
+          📥 Exportar CSV de Nube
+        </button>
+        <button onClick={() => window.location.reload()} disabled={loading} className="btn btn-outline" style={{ flex: 1 }}>
+          🔄 Actualizar/Sincronizar
         </button>
       </div>
 

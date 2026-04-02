@@ -16,8 +16,15 @@ export default function FichaProducto({ params }: { params: Promise<{ id: string
   const router = useRouter();
   const unwrappedParams = use(params);
   const [product, setProduct] = useState<Product | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+      return /android|iphone|ipad|ipod/i.test(userAgent.toLowerCase());
+    };
+    setIsMobile(checkMobile());
+
     fetch('/data/products.json')
       .then(res => res.json())
       .then((data: Product[]) => {
@@ -53,6 +60,23 @@ export default function FichaProducto({ params }: { params: Promise<{ id: string
           + Agregar a la Bandeja
         </button>
       </div>
+
+      {isMobile && (
+        <div style={{ background: 'rgba(255, 193, 7, 0.1)', borderLeft: '4px solid #ffc107', padding: '1rem', marginBottom: '1rem', borderRadius: '4px' }}>
+          <p style={{ margin: 0, fontSize: '0.85rem' }}>
+            <strong>Nota Móvil:</strong> Si el visor no muestra la página correcta, usa este botón:
+          </p>
+          <a 
+            href={`/pdfs/${product.pdf}#page=${product.page}`} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="btn btn-primary"
+            style={{ display: 'inline-block', marginTop: '0.5rem', fontSize: '0.8rem', padding: '0.5rem 1rem', background: '#333' }}
+          >
+            📂 Abrir Ficha Completa en nueva pestaña
+          </a>
+        </div>
+      )}
 
       <div className="glass-panel" style={{ flexGrow: 1, padding: '1rem', display: 'flex', flexDirection: 'column' }}>
         <h2 style={{ marginBottom: '1rem', color: 'var(--primary)', fontSize: '1.4rem' }}>{product.name}</h2>

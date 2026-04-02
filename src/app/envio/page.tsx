@@ -106,7 +106,7 @@ export default function Envio() {
     saveVisitToCloud();
     
     const text = generateMessageText(false);
-    const mailto = `mailto:${client.email}?subject=Catálogo TodoLactea - Dairy Solutions&body=${encodeURIComponent(text)}`;
+    const mailto = `mailto:${client.email}?bcc=dairy@dairy.com.ar&subject=Catálogo TodoLactea - Dairy Solutions&body=${encodeURIComponent(text)}`;
     window.location.href = mailto;
   };
 
