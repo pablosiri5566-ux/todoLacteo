@@ -25,10 +25,12 @@ export default function FichaProducto({ params }: { params: Promise<{ id: string
     };
     setIsMobile(checkMobile());
 
-    fetch('/data/products.json')
+    // Add cache-buster to ensure the latest JSON data
+    fetch(`/data/products.json?v=${Date.now()}`)
       .then(res => res.json())
       .then((data: Product[]) => {
-        const found = data.find(p => p.id === unwrappedParams.id);
+        // Find product by id (ensure comparison is clean)
+        const found = data.find(p => p.id.trim() === unwrappedParams.id.trim());
         if (found) setProduct(found);
       })
       .catch(err => console.error("Error fetching product:", err));
@@ -67,19 +69,25 @@ export default function FichaProducto({ params }: { params: Promise<{ id: string
             <strong>Nota Móvil:</strong> Si el visor no muestra la página correcta, usa este botón:
           </p>
           <a 
-            href={`/pdfs/${product.pdf}#page=${product.page}`} 
+            href={`/pdfs/${product.pdf}?v=${Date.now()}#page=${product.page}`} 
             target="_blank" 
             rel="noopener noreferrer"
             className="btn btn-primary"
-            style={{ display: 'inline-block', marginTop: '0.5rem', fontSize: '0.8rem', padding: '0.5rem 1rem', background: '#333' }}
+            style={{ display: 'inline-block', marginTop: '0.75rem', fontSize: '0.9rem', padding: '0.75rem 1.25rem', background: 'var(--primary-hover)', textDecoration: 'none' }}
           >
-            📂 Abrir Ficha Completa en nueva pestaña
+            📄 Abrir Ficha PDF (Página {product.page})
           </a>
         </div>
       )}
 
       <div className="glass-panel" style={{ flexGrow: 1, padding: '1rem', display: 'flex', flexDirection: 'column' }}>
-        <h2 style={{ marginBottom: '1rem', color: 'var(--primary)', fontSize: '1.4rem' }}>{product.name}</h2>
+        <h2 style={{ marginBottom: '1.25rem', color: 'var(--primary)', fontSize: '1.5rem', fontWeight: 700 }}>{product.name}</h2>
+        
+        {/* Info Técnica Textual (Garantiza info correcta en móviles si falla el PDF) */}
+        <div style={{ marginBottom: '1.5rem', background: 'rgba(255,255,255,0.03)', padding: '1.25rem', borderRadius: 'var(--radius)', borderLeft: '3px solid var(--primary)' }}>
+            <h4 style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>Descripción Técnica</h4>
+            <p style={{ fontSize: '1.05rem', color: 'var(--text-main)', lineHeight: '1.6' }}>{product.description || "Consultar detalles técnicos adicionales en el archivo PDF adjunto."}</p>
+        </div>
         
         <div style={{ flexGrow: 1, position: 'relative', borderRadius: 'var(--radius)', overflow: 'hidden', border: '1px solid var(--border)' }}>
           {/* The PDF viewer automatically opens the required page because of `#page=${product.page}` */}

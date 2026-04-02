@@ -32,10 +32,11 @@ export default function Envio() {
 
     if (savedCart) {
       const cartIds: string[] = JSON.parse(savedCart);
-      fetch('/data/products.json')
+      fetch(`/data/products.json?v=${Date.now()}`)
         .then(res => res.json())
         .then((data: Product[]) => {
-          const items = data.filter(p => cartIds.includes(p.id));
+          // Robust mapping using string IDs and trimming
+          const items = data.filter(p => cartIds.map(id => String(id).trim()).includes(p.id.trim()));
           setCartItems(items);
           setLoading(false);
         });

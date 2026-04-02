@@ -20,7 +20,8 @@ export default function Productos() {
 
   useEffect(() => {
     // Load products via fetch from public folder (allowing PWA caching later)
-    fetch('/data/products.json')
+    // Load products via fetch from public folder with cache-buster
+    fetch(`/data/products.json?v=${Date.now()}`)
       .then(res => res.json())
       .then(data => setProductsData(data))
       .catch(err => console.error("Error loading catalogue:", err));
