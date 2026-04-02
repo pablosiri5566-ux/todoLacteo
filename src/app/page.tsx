@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,16 +9,27 @@ export default function Home() {
   const router = useRouter();
   const [formData, setFormData] = useState({ 
     date: new Date().toLocaleDateString('es-AR'),
+    sellerName: "",
     name: "", 
     email: "", 
-    phone: "",
+    phone: "" ,
     establishmentName: "",
     establishmentZone: "",
     farmSize: ""
   });
 
+  useEffect(() => {
+    // Load seller from localStorage to "remember" who is using this device
+    const savedSeller = localStorage.getItem("preferredSeller");
+    if (savedSeller) {
+        setFormData(prev => ({ ...prev, sellerName: savedSeller }));
+    }
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Save seller name locally for the next time
+    localStorage.setItem("preferredSeller", formData.sellerName);
     // Save to session storage so the cart can attribute the interaction to this client
     sessionStorage.setItem("clientData", JSON.stringify(formData));
     router.push("/productos");
@@ -46,6 +57,19 @@ export default function Home() {
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <div>
+            <label style={{ display: 'block', marginBottom: '0.4rem', fontSize: '0.85rem', fontWeight: 600, color: 'var(--primary)' }}>TU NOMBRE (VENDEDOR) *</label>
+            <input 
+              type="text" 
+              className="input-field" 
+              placeholder="¿Quién está atendiendo?" 
+              style={{ border: '1px solid var(--primary)', background: 'rgba(37, 211, 102, 0.05)' }}
+              required
+              value={formData.sellerName}
+              onChange={(e) => setFormData({...formData, sellerName: e.target.value})}
+            />
+          </div>
+
+          <div style={{ borderBottom: '1px solid var(--border)', margin: '0.5rem 0 1rem 0', paddingBottom: '0.5rem' }}>
             <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500 }}>Fecha de Registro</label>
             <input 
               type="text" 

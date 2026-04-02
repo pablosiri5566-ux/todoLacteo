@@ -19,6 +19,7 @@ interface Visit {
     establishmentName?: string;
     establishmentZone?: string;
     farmSize?: string;
+    sellerName?: string;
   };
   products: Product[];
 }
@@ -74,6 +75,7 @@ export default function VisitasPage() {
       "Establecimiento", 
       "Zona", 
       "Tamano", 
+      "Vendedor",
       "Productos Enviados"
     ];
     
@@ -86,6 +88,7 @@ export default function VisitasPage() {
         v.client.establishmentName || "",
         v.client.establishmentZone || "",
         v.client.farmSize || "",
+        v.client.sellerName || "No registrado",
         v.products.map(p => p.name).join(" | ")
       ];
     });
@@ -162,6 +165,7 @@ export default function VisitasPage() {
                 {visit.client.establishmentName && <p><strong>Establecimiento:</strong> {visit.client.establishmentName}</p>}
                 {visit.client.establishmentZone && <p><strong>Zona:</strong> {visit.client.establishmentZone}</p>}
                 {visit.client.farmSize && <p><strong>Tamaño Ext.:</strong> {visit.client.farmSize}</p>}
+                <p style={{ marginTop: '0.4rem', color: 'var(--primary)', fontWeight: 600 }}>👤 Vendedor: {visit.client.sellerName || 'No especificado'}</p>
               </div>
 
               {visit.products.length > 0 && (
