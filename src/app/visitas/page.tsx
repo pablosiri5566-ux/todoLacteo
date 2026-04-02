@@ -23,33 +23,42 @@ interface Visit {
   products: Product[];
 }
 
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, getDocsFromServer, orderBy, query } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 
 export default function VisitasPage() {
   const [visits, setVisits] = useState<Visit[]>([]);
   const [loading, setLoading] = useState(true);
+  const [syncStatus, setSyncStatus] = useState<"pending" | "cloud" | "local">("pending");
+  const [syncError, setSyncError] = useState<string | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchCloud = async () => {
-      try {
-        const q = query(collection(db, "visitas"), orderBy("date", "desc"));
-        const snapshot = await getDocs(q);
-        const data = snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() })) as Visit[];
-        setVisits(data);
-        setLoading(false);
-      } catch (e) {
-        console.error("No se pudo cargar de Firebase, usando fallback local", e);
-        const data = localStorage.getItem("visits");
-        if (data) {
-          try {
-            setVisits(JSON.parse(data));
-          } catch(err) {}
-        }
-        setLoading(false);
+  const fetchCloud = async () => {
+    setLoading(true);
+    setSyncError(null);
+    try {
+      // Force fetch from server to ignore local browser cache and see global information
+      const q = query(collection(db, "visitas"), orderBy("date", "desc"));
+      const snapshot = await getDocsFromServer(q);
+      const data = snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() })) as Visit[];
+      setVisits(data);
+      setSyncStatus("cloud");
+      setLoading(false);
+    } catch (e: any) {
+      console.error("No se pudo cargar de Firebase, usando fallback local", e);
+      setSyncError(e.message || "Error al conectar con la base de datos");
+      const data = localStorage.getItem("visits");
+      if (data) {
+        try {
+          setVisits(JSON.parse(data));
+          setSyncStatus("local");
+        } catch(err) {}
       }
-    };
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchCloud();
   }, []);
 
@@ -109,10 +118,26 @@ export default function VisitasPage() {
         <button onClick={exportCSV} disabled={visits.length === 0 || loading} className="btn btn-primary" style={{ flex: 1 }}>
           📥 Exportar CSV de Nube
         </button>
-        <button onClick={() => window.location.reload()} disabled={loading} className="btn btn-outline" style={{ flex: 1 }}>
-          🔄 Actualizar/Sincronizar
+        <button onClick={fetchCloud} disabled={loading} className="btn btn-outline" style={{ flex: 1 }}>
+          {loading ? 'Sincronizando...' : '🔄 Forzar Sincronización'}
         </button>
       </div>
+
+      <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+        <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: syncStatus === 'cloud' ? '#25D366' : syncStatus === 'local' ? '#ffc107' : '#999' }} />
+        <span style={{ fontSize: '0.85rem', fontWeight: 600, color: syncStatus === 'cloud' ? '#25D366' : syncStatus === 'local' ? '#ffc107' : 'var(--text-muted)' }}>
+          {syncStatus === 'cloud' ? 'Sincronizado: Base de Datos en la Nube' : syncStatus === 'local' ? 'Memoria Local (Offline)' : 'Pendiente...'}
+        </span>
+      </div>
+
+      {syncError && (
+        <div className="glass-panel" style={{ padding: '1rem', marginBottom: '1.5rem', border: '1px solid #ff6b6b', background: 'rgba(255, 107, 107, 0.05)' }}>
+          <p style={{ color: '#ff6b6b', fontSize: '0.85rem', margin: 0 }}>
+            <strong>Error Nube:</strong> {syncError}. <br/>
+            Si el error persiste, verifica la conexión o permisos en la consola de Firebase.
+          </p>
+        </div>
+      )}
 
       {loading ? (
         <div className="glass-panel" style={{ padding: '2rem', textAlign: 'center' }}>
