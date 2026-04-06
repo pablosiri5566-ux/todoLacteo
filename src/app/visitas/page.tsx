@@ -47,24 +47,30 @@ export default function VisitasPage() {
           ? await getDocsFromServer(q) 
           : await getDocs(q);
       } catch (e: any) {
-        // If server fails (even the hybrid getDocs), try getting from persistent cache explicitly
         console.warn("Fallo el servidor, intentando leer de cache persistente...");
-        snapshot = await getDocsFromCache(q);
+        try {
+          snapshot = await getDocsFromCache(q);
+        } catch (cacheErr) {
+          console.error("Cache falló también:", cacheErr);
+          snapshot = null;
+        }
       }
         
-      const data = snapshot.docs.map((doc: any) => ({ 
+      const data = snapshot && snapshot.docs ? snapshot.docs.map((doc: any) => ({ 
         id: doc.id, 
         ...doc.data() 
-      })) as Visit[];
+      })) : [] as Visit[];
       
-      // Sort in memory to avoid needing a Firestore index
-      const sortedData = data.sort((a, b) => 
-        new Date(b.date).getTime() - new Date(a.date).getTime()
-      );
+      // Sort in memory safely
+      const sortedData = data.sort((a, b) => {
+        const dateA = a.date ? new Date(a.date).getTime() : 0;
+        const dateB = b.date ? new Date(b.date).getTime() : 0;
+        return dateB - dateA;
+      });
       
       if (sortedData.length > 0) {
         setVisits(sortedData);
-        setSyncStatus(snapshot.metadata.fromCache ? "local" : "cloud");
+        setSyncStatus(snapshot && snapshot.metadata && snapshot.metadata.fromCache ? "local" : "cloud");
       } else {
         // Fallback to local storage if nothing is found in Firebase (at all)
         const localData = localStorage.getItem("visits");
