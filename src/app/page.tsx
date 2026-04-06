@@ -164,7 +164,7 @@ export default function Home() {
           Admin: Panel de Visitas
         </Link>
         <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', opacity: 0.4 }}>
-          v1.2 - Diagnóstico Firebase Activo
+          v1.3 - Panel Estable
         </span>
       </div>
     </div>
