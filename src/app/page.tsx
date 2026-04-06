@@ -164,7 +164,7 @@ export default function Home() {
           Admin: Panel de Visitas
         </Link>
         <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', opacity: 0.4 }}>
-          v1.4 - Blindaje Activo
+          v1.5 - Diagnóstico Maestro
         </span>
       </div>
     </div>
