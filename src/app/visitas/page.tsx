@@ -56,15 +56,22 @@ export default function VisitasPage() {
         }
       }
         
-      const data = snapshot && snapshot.docs ? snapshot.docs.map((doc: any) => ({ 
-        id: doc.id, 
-        ...doc.data() 
-      })) : [] as Visit[];
+      const data = snapshot && snapshot.docs ? snapshot.docs.map((doc: any) => {
+        const d = doc.data();
+        return { 
+          id: doc.id, 
+          date: d.date || "",
+          client: d.client || {},
+          products: d.products || []
+        };
+      }) : [] as Visit[];
       
       // Sort in memory safely
       const sortedData = data.sort((a, b) => {
         const dateA = a.date ? new Date(a.date).getTime() : 0;
         const dateB = b.date ? new Date(b.date).getTime() : 0;
+        if (isNaN(dateA)) return 1;
+        if (isNaN(dateB)) return -1;
         return dateB - dateA;
       });
       
@@ -73,8 +80,15 @@ export default function VisitasPage() {
         setSyncStatus(snapshot && snapshot.metadata && snapshot.metadata.fromCache ? "local" : "cloud");
       } else {
         // Fallback to local storage if nothing is found in Firebase (at all)
-        const localData = localStorage.getItem("visits");
-        if (localData) setVisits(JSON.parse(localData));
+        try {
+          const localData = localStorage.getItem("visits");
+          if (localData) {
+            const parsed = JSON.parse(localData);
+            if (Array.isArray(parsed)) setVisits(parsed);
+          }
+        } catch(e) {
+          console.error("Error al leer visitas locales:", e);
+        }
       }
       
       setLoading(false);
@@ -195,17 +209,19 @@ export default function VisitasPage() {
           {visits.map(visit => (
             <div key={visit.id} className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h3 style={{ fontSize: '1.15rem', color: 'var(--primary)' }}>{visit.client.name}</h3>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{new Date(visit.date).toLocaleDateString()}</span>
+                <h3 style={{ fontSize: '1.15rem', color: 'var(--primary)' }}>{visit.client?.name || "Cliente sin nombre"}</h3>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                  {visit.date ? new Date(visit.date).toLocaleDateString() : "Sin fecha"}
+                </span>
               </div>
               
               <div style={{ fontSize: '0.9rem', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                <p><strong>Email:</strong> {visit.client.email}</p>
-                <p><strong>WhatsApp:</strong> {visit.client.phone}</p>
-                {visit.client.establishmentName && <p><strong>Establecimiento:</strong> {visit.client.establishmentName}</p>}
-                {visit.client.establishmentZone && <p><strong>Zona:</strong> {visit.client.establishmentZone}</p>}
-                {visit.client.farmSize && <p><strong>Tamaño Ext.:</strong> {visit.client.farmSize}</p>}
-                <p style={{ marginTop: '0.4rem', color: 'var(--primary)', fontWeight: 600 }}>👤 Vendedor: {visit.client.sellerName || 'No especificado'}</p>
+                <p><strong>Email:</strong> {visit.client?.email || 'N/A'}</p>
+                <p><strong>WhatsApp:</strong> {visit.client?.phone || 'N/A'}</p>
+                {visit.client?.establishmentName && <p><strong>Establecimiento:</strong> {visit.client.establishmentName}</p>}
+                {visit.client?.establishmentZone && <p><strong>Zona:</strong> {visit.client.establishmentZone}</p>}
+                {visit.client?.farmSize && <p><strong>Tamaño Ext.:</strong> {visit.client.farmSize}</p>}
+                <p style={{ marginTop: '0.4rem', color: 'var(--primary)', fontWeight: 600 }}>👤 Vendedor: {visit.client?.sellerName || 'No especificado'}</p>
               </div>
 
               {visit.products.length > 0 && (
