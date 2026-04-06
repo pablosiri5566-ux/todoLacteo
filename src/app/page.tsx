@@ -159,10 +159,13 @@ export default function Home() {
         </form>
       </div>
       
-      <div style={{ textAlign: 'center', marginTop: '1.5rem', marginBottom: '2rem' }}>
+      <div style={{ textAlign: 'center', marginTop: '1.5rem', marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>
         <Link href="/visitas" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', opacity: 0.7, textDecoration: 'underline' }}>
           Admin: Panel de Visitas
         </Link>
+        <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', opacity: 0.4 }}>
+          v1.2 - Diagnóstico Firebase Activo
+        </span>
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ export default function Envio() {
   const [client, setClient] = useState<any>(null);
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [saveStatus, setSaveStatus] = useState<"pending" | "queued" | "synced">("pending");
 
   useEffect(() => {
     const savedClient = sessionStorage.getItem("clientData");
@@ -39,6 +40,8 @@ export default function Envio() {
           const items = data.filter(p => cartIds.map(id => String(id).trim()).includes(p.id.trim()));
           setCartItems(items);
           setLoading(false);
+          // Trigger cloud save as soon as we have the product data ready
+          saveVisitToCloud();
         });
     } else {
       setLoading(false);
@@ -54,15 +57,24 @@ export default function Envio() {
       products: cartItems
     };
 
-    // Immediate local backup
+    // Immediate local backup in localStorage (legacy support)
     const history = JSON.parse(localStorage.getItem("visits") || "[]");
     localStorage.setItem("visits", JSON.stringify([...history, { id: Date.now().toString(), ...newVisit }]));
 
     try {
-      // Background save to Firestore
-      addDoc(collection(db, "visitas"), newVisit).then(() => {
-        sessionStorage.setItem("visitSaved", "true");
-      });
+      setSaveStatus("queued");
+      // Fire and forget: Firestore will manage the upload queue automatically
+      // even if the device is currently offline.
+      addDoc(collection(db, "visitas"), newVisit)
+        .then(() => {
+          console.log("Visita guardada en la nube satisfactoriamente");
+          sessionStorage.setItem("visitSaved", "true");
+          setSaveStatus("synced");
+        })
+        .catch(err => {
+          console.error("Error al guardar en la nube (se reintentará automáticamente):", err);
+          // Still remains "queued" because Firestore will retry
+        });
     } catch (e) {
       console.error("Error al disparar guardado en Firebase:", e);
     }
@@ -139,6 +151,16 @@ export default function Envio() {
         <h3 style={{ marginBottom: '1rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem', fontSize: '1.1rem' }}>
           Productos Separados ({cartItems.length})
         </h3>
+
+        {saveStatus !== "pending" && (
+          <div style={{ marginBottom: '1rem', display: 'flex', gap: '0.5rem', alignItems: 'center', background: 'rgba(255,255,255,0.05)', padding: '0.5rem 1rem', borderRadius: '8px' }}>
+             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: saveStatus === 'synced' ? '#25D366' : '#ffc107' }} />
+             <span style={{ fontSize: '0.75rem', fontWeight: 600, color: saveStatus === 'synced' ? '#25D366' : '#ffc107' }}>
+               {saveStatus === 'synced' ? 'Nube: Registro Sincronizado' : 'Nube: Guardado Localmente (Pendiente subir)'}
+             </span>
+          </div>
+        )}
+
         {cartItems.length === 0 ? (
           <p style={{ color: 'var(--text-muted)' }}>No has seleccionado ningún producto aún.</p>
         ) : (

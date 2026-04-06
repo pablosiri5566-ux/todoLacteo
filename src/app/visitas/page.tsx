@@ -24,7 +24,7 @@ interface Visit {
   products: Product[];
 }
 
-import { collection, getDocs, getDocsFromServer, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, getDocsFromServer, getDocsFromCache, query } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 
 export default function VisitasPage() {
@@ -34,20 +34,54 @@ export default function VisitasPage() {
   const [syncError, setSyncError] = useState<string | null>(null);
   const router = useRouter();
 
-  const fetchCloud = async () => {
+  const fetchCloud = async (forceServer = false) => {
     setLoading(true);
     setSyncError(null);
     try {
-      // Force fetch from server to ignore local browser cache and see global information
-      const q = query(collection(db, "visitas"), orderBy("date", "desc"));
-      const snapshot = await getDocsFromServer(q);
-      const data = snapshot.docs.map((doc: any) => ({ id: doc.id, ...doc.data() })) as Visit[];
-      setVisits(data);
-      setSyncStatus("cloud");
+      // Very basic query to avoid indexing issues at the trade show
+      const q = query(collection(db, "visitas"));
+      
+      let snapshot;
+      try {
+        snapshot = forceServer 
+          ? await getDocsFromServer(q) 
+          : await getDocs(q);
+      } catch (e: any) {
+        // If server fails (even the hybrid getDocs), try getting from persistent cache explicitly
+        console.warn("Fallo el servidor, intentando leer de cache persistente...");
+        snapshot = await getDocsFromCache(q);
+      }
+        
+      const data = snapshot.docs.map((doc: any) => ({ 
+        id: doc.id, 
+        ...doc.data() 
+      })) as Visit[];
+      
+      // Sort in memory to avoid needing a Firestore index
+      const sortedData = data.sort((a, b) => 
+        new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+      
+      if (sortedData.length > 0) {
+        setVisits(sortedData);
+        setSyncStatus(snapshot.metadata.fromCache ? "local" : "cloud");
+      } else {
+        // Fallback to local storage if nothing is found in Firebase (at all)
+        const localData = localStorage.getItem("visits");
+        if (localData) setVisits(JSON.parse(localData));
+      }
+      
       setLoading(false);
     } catch (e: any) {
-      console.error("No se pudo cargar de Firebase, usando fallback local", e);
-      setSyncError(e.message || "Error al conectar con la base de datos");
+      console.error("Error crítico de acceso a datos:", e);
+      // Improve technical message for the user if it's likely a rules issue
+      const msg = e.code === 'permission-denied' 
+        ? "ACCESO DENEGADO: Las reglas de seguridad de Firebase podrían haber expirado (revisa la consola de Firebase)." 
+        : e.message || "Error al conectar con la base de datos";
+        
+      setSyncError(msg);
+      
+      // Mandatory fallback to local device visits if everything fails
       const data = localStorage.getItem("visits");
       if (data) {
         try {
@@ -121,7 +155,7 @@ export default function VisitasPage() {
         <button onClick={exportCSV} disabled={visits.length === 0 || loading} className="btn btn-primary" style={{ flex: 1 }}>
           📥 Exportar CSV de Nube
         </button>
-        <button onClick={fetchCloud} disabled={loading} className="btn btn-outline" style={{ flex: 1 }}>
+        <button onClick={() => fetchCloud(true)} disabled={loading} className="btn btn-outline" style={{ flex: 1 }}>
           {loading ? 'Sincronizando...' : '🔄 Forzar Sincronización'}
         </button>
       </div>
