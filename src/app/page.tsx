@@ -64,6 +64,7 @@ export default function Home() {
               placeholder="¿Quién está atendiendo?" 
               style={{ border: '1px solid var(--primary)', background: 'rgba(37, 211, 102, 0.05)' }}
               required
+              autoComplete="off"
               value={formData.sellerName}
               onChange={(e) => setFormData({...formData, sellerName: e.target.value})}
             />
@@ -87,6 +88,7 @@ export default function Home() {
               className="input-field" 
               placeholder="Ej. Juan Pérez" 
               required
+              autoComplete="off"
               value={formData.name}
               onChange={(e) => setFormData({...formData, name: e.target.value})}
             />
@@ -98,6 +100,7 @@ export default function Home() {
               className="input-field" 
               placeholder="correo@ejemplo.com" 
               required
+              autoComplete="new-password"
               value={formData.email}
               onChange={(e) => setFormData({...formData, email: e.target.value})}
             />
@@ -109,6 +112,7 @@ export default function Home() {
               className="input-field" 
               placeholder="+54 9 11 1234-5678" 
               required
+              autoComplete="off"
               value={formData.phone}
               onChange={(e) => setFormData({...formData, phone: e.target.value})}
             />
@@ -164,7 +168,7 @@ export default function Home() {
           Admin: Panel de Visitas
         </Link>
         <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', opacity: 0.4 }}>
-          v1.6 - Sincronía Total
+          v1.7 - Protección de Datos
         </span>
       </div>
     </div>
