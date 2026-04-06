@@ -32,6 +32,7 @@ export default function VisitasPage() {
   const [loading, setLoading] = useState(true);
   const [syncStatus, setSyncStatus] = useState<"pending" | "cloud" | "local">("pending");
   const [syncError, setSyncError] = useState<string | null>(null);
+  const [debugData, setDebugData] = useState<any[] | null>(null);
   const router = useRouter();
 
   const fetchCloud = async (forceServer = false) => {
@@ -56,6 +57,9 @@ export default function VisitasPage() {
         }
       }
         
+      const rawDocs = snapshot && snapshot.docs ? snapshot.docs.map(doc => doc.data()) : [];
+      setDebugData(rawDocs);
+        
       const data = snapshot && snapshot.docs ? snapshot.docs.map((doc: any) => {
         const d = doc.data();
         return { 
@@ -66,12 +70,26 @@ export default function VisitasPage() {
         };
       }) : [] as Visit[];
       
-      // Sort in memory safely
+      // Super robust sorting for old browsers (like IE/Old Safari)
       const sortedData = data.sort((a, b) => {
-        const dateA = a.date ? new Date(a.date).getTime() : 0;
-        const dateB = b.date ? new Date(b.date).getTime() : 0;
-        if (isNaN(dateA)) return 1;
-        if (isNaN(dateB)) return -1;
+        const getTs = (dStr: any) => {
+          if (!dStr) return 0;
+          // Try ISO parse
+          const ts = new Date(dStr).getTime();
+          if (!isNaN(ts)) return ts;
+          // Try MDY/DMY parse (for records like 6/4/2026)
+          const parts = String(dStr).split(/[\/\-]/);
+          if (parts.length === 3) {
+            // Assume DMY if first is small
+            const d = parseInt(parts[0]);
+            const m = parseInt(parts[1]) - 1;
+            const y = parseInt(parts[2]);
+            return new Date(y, m, d).getTime();
+          }
+          return 0;
+        };
+        const dateA = getTs(a.date);
+        const dateB = getTs(b.date);
         return dateB - dateA;
       });
       
@@ -94,14 +112,12 @@ export default function VisitasPage() {
       setLoading(false);
     } catch (e: any) {
       console.error("Error crítico de acceso a datos:", e);
-      // Improve technical message for the user if it's likely a rules issue
       const msg = e.code === 'permission-denied' 
         ? "ACCESO DENEGADO: Las reglas de seguridad de Firebase podrían haber expirado (revisa la consola de Firebase)." 
         : e.message || "Error al conectar con la base de datos";
         
       setSyncError(msg);
       
-      // Mandatory fallback to local device visits if everything fails
       const data = localStorage.getItem("visits");
       if (data) {
         try {
@@ -210,6 +226,9 @@ export default function VisitasPage() {
             <div key={visit.id} className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h3 style={{ fontSize: '1.15rem', color: 'var(--primary)' }}>{visit.client?.name || "Cliente sin nombre"}</h3>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', opacity: 0.4 }}>
+                  v1.5 - Diagnóstico Maestro
+                </span>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                   {visit.date ? new Date(visit.date).toLocaleDateString() : "Sin fecha"}
                 </span>
@@ -236,6 +255,21 @@ export default function VisitasPage() {
               )}
             </div>
           ))}
+        </div>
+      )}
+
+      {debugData && debugData.length > 0 && (
+        <div style={{ marginTop: '3rem', borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
+          <details>
+            <summary style={{ fontSize: '0.7rem', color: 'var(--text-muted)', cursor: 'pointer', opacity: 0.5 }}>
+              [Panel Diagnóstico v1.5 - Datos Crudos Nube]
+            </summary>
+            <div style={{ marginTop: '1rem', background: '#000', padding: '1rem', borderRadius: '4px', overflowX: 'auto' }}>
+              <pre style={{ fontSize: '0.65rem', color: '#25D366', fontFamily: 'monospace' }}>
+                {JSON.stringify(debugData.slice(0, 5), null, 2)}
+              </pre>
+            </div>
+          </details>
         </div>
       )}
     </div>
