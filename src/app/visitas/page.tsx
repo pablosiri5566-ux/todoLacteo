@@ -60,27 +60,37 @@ export default function VisitasPage() {
       const rawDocs = snapshot && snapshot.docs ? snapshot.docs.map(doc => doc.data()) : [];
       setDebugData(rawDocs);
         
-      const data = snapshot && snapshot.docs ? snapshot.docs.map((doc: any) => {
-        const d = doc.data();
-        return { 
-          id: doc.id, 
-          date: d.date || "",
-          client: d.client || {},
-          products: d.products || []
-        };
-      }) : [] as Visit[];
+      const data = snapshot && snapshot.docs ? snapshot.docs
+        .filter((doc: any) => {
+          const d = doc.data();
+          // Filter out completely empty or null records
+          return d && d.client !== null;
+        })
+        .map((doc: any) => {
+          const d = doc.data();
+          let finalDate = d.date || "";
+          
+          // HEAL DATE: If machine date is 2024 but client.date says 2026, use 2026 for sorting
+          if (finalDate.includes("2024") && d.client?.date?.includes("2026")) {
+            finalDate = finalDate.replace("2024", "2026");
+          }
+
+          return { 
+            id: doc.id, 
+            date: finalDate,
+            client: d.client || {},
+            products: d.products || []
+          };
+        }) : [] as Visit[];
       
       // Super robust sorting for old browsers (like IE/Old Safari)
       const sortedData = data.sort((a, b) => {
         const getTs = (dStr: any) => {
           if (!dStr) return 0;
-          // Try ISO parse
           const ts = new Date(dStr).getTime();
           if (!isNaN(ts)) return ts;
-          // Try MDY/DMY parse (for records like 6/4/2026)
           const parts = String(dStr).split(/[\/\-]/);
           if (parts.length === 3) {
-            // Assume DMY if first is small
             const d = parseInt(parts[0]);
             const m = parseInt(parts[1]) - 1;
             const y = parseInt(parts[2]);
@@ -97,16 +107,13 @@ export default function VisitasPage() {
         setVisits(sortedData);
         setSyncStatus(snapshot && snapshot.metadata && snapshot.metadata.fromCache ? "local" : "cloud");
       } else {
-        // Fallback to local storage if nothing is found in Firebase (at all)
         try {
           const localData = localStorage.getItem("visits");
           if (localData) {
             const parsed = JSON.parse(localData);
             if (Array.isArray(parsed)) setVisits(parsed);
           }
-        } catch(e) {
-          console.error("Error al leer visitas locales:", e);
-        }
+        } catch(e) {}
       }
       
       setLoading(false);
@@ -227,7 +234,7 @@ export default function VisitasPage() {
               <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h3 style={{ fontSize: '1.15rem', color: 'var(--primary)' }}>{visit.client?.name || "Cliente sin nombre"}</h3>
                 <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', opacity: 0.4 }}>
-                  v1.5 - Diagnóstico Maestro
+                  v1.6 - Sincronía Total
                 </span>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                   {visit.date ? new Date(visit.date).toLocaleDateString() : "Sin fecha"}
