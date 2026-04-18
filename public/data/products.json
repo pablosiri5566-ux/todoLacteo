@@ -334,5 +334,26 @@
     "description": "Es un tanque moderno de la fabrica mas grande de Europa en la fabricación de tanque de frio adecuado a las normas europeas. Tiene capacidad hasta 40000 litros tiene placas evaporizadoras que se agregan de acuerdo a la cantidad de litros que es necesario enfriar por hora",
     "pdf": "score card productos externos.pdf",
     "page": 9
+  },
+  {
+    "id": "siloking-trailedline-compact-12m3",
+    "name": "Siloking TrailedLine Compact 12m³",
+    "description": "Mezclador vertical arrastrado de un sinfín. Compacto y maniobrable, ideal para granjas con pasillos estrechos y techos bajos.",
+    "pdf": "Siloking_Compact_12m3.pdf",
+    "page": 1
+  },
+  {
+    "id": "siloking-trailedline-premium-30m3",
+    "name": "Siloking TrailedLine Premium 30m³",
+    "description": "Mezclador vertical arrastrado de gran capacidad con dos sinfines. Diseñado para máximo rendimiento, durabilidad y eficiencia en grandes explotaciones lecheras.",
+    "pdf": "Siloking_Premium_30m3.pdf",
+    "page": 1
+  },
+  {
+    "id": "siloking-trailedline-premium-26m",
+    "name": "Siloking TrailedLine Premium 26m",
+    "description": "Mezclador vertical arrastrado de alto rendimiento con dos sinfines. Ofrece un equilibrio perfecto entre gran capacidad de carga y agilidad de movimiento.",
+    "pdf": "Siloking_Premium_26m.pdf",
+    "page": 1
   }
 ]
