@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function Home() {
   const router = useRouter();
   const [formData, setFormData] = useState({ 
-    date: new Date().toLocaleDateString('es-AR'),
+    date: "",
     sellerName: "",
     name: "", 
     email: "", 
@@ -19,6 +19,9 @@ export default function Home() {
   });
 
   useEffect(() => {
+    // Fresh date on mount
+    setFormData(prev => ({ ...prev, date: new Date().toLocaleDateString('es-AR') }));
+    
     // Load seller from localStorage to "remember" who is using this device
     const savedSeller = localStorage.getItem("preferredSeller");
     if (savedSeller) {

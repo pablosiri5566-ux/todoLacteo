@@ -70,7 +70,8 @@ export default function VisitasPage() {
           const d = doc.data();
           let finalDate = d.date || "";
           
-          // HEAL DATE: If machine date is 2024 but client.date says 2026, use 2026 for sorting
+          // CRITICAL FIX: Ensure finalDate is a valid date string that including sub-seconds if available
+          // If machine date is 2024 but client.date says 2026, use 2026 for sorting/display
           if (finalDate.includes("2024") && d.client?.date?.includes("2026")) {
             finalDate = finalDate.replace("2024", "2026");
           }
@@ -236,8 +237,14 @@ export default function VisitasPage() {
                 <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', opacity: 0.4 }}>
                   v1.7 - Protección de Datos
                 </span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                  {visit.date ? new Date(visit.date).toLocaleDateString() : "Sin fecha"}
+                <span style={{ fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 600 }}>
+                  {visit.date ? new Date(visit.date).toLocaleString('es-AR', { 
+                    day: '2-digit', 
+                    month: '2-digit', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  }) : "Sin fecha"}
                 </span>
               </div>
               

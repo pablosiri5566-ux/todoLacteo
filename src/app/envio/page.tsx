@@ -153,11 +153,18 @@ export default function Envio() {
         </h3>
 
         {saveStatus !== "pending" && (
-          <div style={{ marginBottom: '1rem', display: 'flex', gap: '0.5rem', alignItems: 'center', background: 'rgba(255,255,255,0.05)', padding: '0.5rem 1rem', borderRadius: '8px' }}>
-             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: saveStatus === 'synced' ? '#25D366' : '#ffc107' }} />
-             <span style={{ fontSize: '0.75rem', fontWeight: 600, color: saveStatus === 'synced' ? '#25D366' : '#ffc107' }}>
-               {saveStatus === 'synced' ? 'Nube: Registro Sincronizado' : 'Nube: Guardado Localmente (Pendiente subir)'}
-             </span>
+          <div style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '0.3rem', background: saveStatus === 'synced' ? 'rgba(37, 211, 102, 0.05)' : 'rgba(255, 193, 7, 0.05)', padding: '0.75rem 1rem', borderRadius: '8px', border: `1px solid ${saveStatus === 'synced' ? '#25D366' : '#ffc107'}` }}>
+             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+               <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: saveStatus === 'synced' ? '#25D366' : '#ffc107', boxShadow: saveStatus === 'synced' ? 'none' : '0 0 8px #ffc107' }} className={saveStatus !== 'synced' ? 'animate-pulse' : ''} />
+               <span style={{ fontSize: '0.8rem', fontWeight: 700, color: saveStatus === 'synced' ? '#25D366' : '#e6ab00' }}>
+                 {saveStatus === 'synced' ? 'SINCRO: Guardado en la Nube' : 'MODO LOCAL: Pendiente de subir'}
+               </span>
+             </div>
+             {saveStatus !== 'synced' && (
+               <p style={{ fontSize: '0.7rem', color: '#888', margin: 0 }}>
+                 Los datos se subirán automáticamente cuando detecte conexión a internet estable. No es necesario esperar.
+               </p>
+             )}
           </div>
         )}
 
