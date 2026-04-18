@@ -40,31 +40,34 @@ export default function Envio() {
           const items = data.filter(p => cartIds.map(id => String(id).trim()).includes(p.id.trim()));
           setCartItems(items);
           setLoading(false);
-          // Trigger cloud save as soon as we have the product data ready
-          saveVisitToCloud();
+          // Auto-save removed to prioritize user action and avoid race conditions
         });
     } else {
       setLoading(false);
     }
   }, [router]);
 
-  const saveVisitToCloud = async () => {
+  const saveVisitToCloud = async (overrideItems?: Product[]) => {
     if (sessionStorage.getItem("visitSaved")) return;
     
+    const itemsToSave = overrideItems || cartItems;
+    if (itemsToSave.length === 0) {
+      console.warn("Intento de guardar visita sin productos - abortando.");
+      return;
+    }
+
     const newVisit = {
       date: new Date().toISOString(),
       client,
-      products: cartItems
+      products: itemsToSave
     };
 
-    // Immediate local backup in localStorage (legacy support)
+    // Immediate local backup
     const history = JSON.parse(localStorage.getItem("visits") || "[]");
     localStorage.setItem("visits", JSON.stringify([...history, { id: Date.now().toString(), ...newVisit }]));
 
     try {
       setSaveStatus("queued");
-      // Fire and forget: Firestore will manage the upload queue automatically
-      // even if the device is currently offline.
       addDoc(collection(db, "visitas"), newVisit)
         .then(() => {
           console.log("Visita guardada en la nube satisfactoriamente");
@@ -72,11 +75,10 @@ export default function Envio() {
           setSaveStatus("synced");
         })
         .catch(err => {
-          console.error("Error al guardar en la nube (se reintentará automáticamente):", err);
-          // Still remains "queued" because Firestore will retry
+          console.error("Error al guardar en la nube:", err);
         });
     } catch (e) {
-      console.error("Error al disparar guardado en Firebase:", e);
+      console.error("Error al disparar guardado Firebase:", e);
     }
   };
 

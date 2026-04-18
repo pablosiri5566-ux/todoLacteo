@@ -24,7 +24,7 @@ interface Visit {
   products: Product[];
 }
 
-import { collection, getDocs, getDocsFromServer, getDocsFromCache, query } from "firebase/firestore";
+import { collection, getDocs, getDocsFromServer, getDocsFromCache, query, onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 
 export default function VisitasPage() {
@@ -138,7 +138,56 @@ export default function VisitasPage() {
   };
 
   useEffect(() => {
-    fetchCloud();
+    setLoading(true);
+    const q = query(collection(db, "visitas"));
+    
+    // Subscribe to real-time updates
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const rawDocs = snapshot.docs.map(doc => doc.data());
+      setDebugData(rawDocs);
+
+      const data = snapshot.docs
+        .filter((doc) => {
+          const d = doc.data();
+          return d && d.client !== null;
+        })
+        .map((doc) => {
+          const d = doc.data();
+          let finalDate = d.date || "";
+          
+          if (finalDate.includes("2024") && d.client?.date?.includes("2026")) {
+            finalDate = finalDate.replace("2024", "2026");
+          }
+
+          return { 
+            id: doc.id, 
+            date: finalDate,
+            client: d.client || {},
+            products: d.products || []
+          } as Visit;
+        });
+
+      // Sort by date (descending)
+      const sortedData = data.sort((a, b) => {
+        const getTs = (dStr: any) => {
+          if (!dStr) return 0;
+          const ts = new Date(dStr).getTime();
+          if (!isNaN(ts)) return ts;
+          return 0;
+        };
+        return getTs(b.date) - getTs(a.date);
+      });
+
+      setVisits(sortedData);
+      setSyncStatus(snapshot.metadata.fromCache ? "local" : "cloud");
+      setLoading(false);
+    }, (error) => {
+      console.error("Error en tiempo real:", error);
+      setSyncError("Error al conectar con la base de datos en tiempo real.");
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const exportCSV = () => {
@@ -234,8 +283,8 @@ export default function VisitasPage() {
             <div key={visit.id} className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h3 style={{ fontSize: '1.15rem', color: 'var(--primary)' }}>{visit.client?.name || "Cliente sin nombre"}</h3>
-                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', opacity: 0.4 }}>
-                  v1.7 - Protección de Datos
+                <span style={{ fontSize: '0.7rem', color: 'var(--primary)', opacity: 0.6, fontWeight: 700 }}>
+                  v1.8 - Sincro Tiempo Real
                 </span>
                 <span style={{ fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 600 }}>
                   {visit.date ? new Date(visit.date).toLocaleString('es-AR', { 
