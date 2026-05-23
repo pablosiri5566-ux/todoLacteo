@@ -2,12 +2,12 @@ import { initializeApp, getApps } from "firebase/app";
 import { getFirestore, enableMultiTabIndexedDbPersistence } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD1Rq2wbCffsJPC5dasSj81gajCpfXPI28",
-  authDomain: "todolactea-89544.firebaseapp.com",
-  projectId: "todolactea-89544",
-  storageBucket: "todolactea-89544.firebasestorage.app",
-  messagingSenderId: "20681889466",
-  appId: "1:20681889466:web:3dd55163652c928f329483"
+  apiKey: "AIzaSyCv_3pp1XOjEbsOFOrsyBMxOuqMgKCRt94",
+  authDomain: "todolactea-46704.firebaseapp.com",
+  projectId: "todolactea-46704",
+  storageBucket: "todolactea-46704.firebasestorage.app",
+  messagingSenderId: "431508924891",
+  appId: "1:431508924891:web:d10cddf47046aba6ec1ffe"
 };
 
 // Initialize Firebase only if it hasn't been initialized already
