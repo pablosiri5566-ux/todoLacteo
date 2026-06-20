@@ -184,24 +184,57 @@ export default function Envio() {
         )}
       </div>
       
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <button 
-          onClick={handleWhatsApp} 
-          disabled={cartItems.length === 0} 
-          className="btn btn-primary" 
-          style={{ fontSize: '1.1rem', background: '#25D366', color: 'white', border: 'none' }}
-        >
-          📱 Enviar por WhatsApp
-        </button>
-        
-        <button 
-          onClick={handleEmail}
-          disabled={cartItems.length === 0} 
-          className="btn btn-outline" 
-          style={{ fontSize: '1.1rem', borderColor: 'var(--primary)', color: 'var(--primary)' }}
-        >
-          📧 Enviar por Email
-        </button>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', marginBottom: '2rem' }}>
+        <div className="glass-panel" style={{ padding: '1.5rem', border: '1px solid var(--primary)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <h3 style={{ color: 'var(--primary)', fontSize: '1.1rem', margin: 0 }}>💼 Documentos Comerciales</h3>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: 0 }}>
+            Genera presupuestos o facturas proforma con el membrete de la empresa, desgloses de IVA y total en letras.
+          </p>
+          <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
+            <button 
+              onClick={() => router.push("/presupuesto")}
+              disabled={cartItems.length === 0} 
+              className="btn btn-primary"
+              style={{ padding: '0.9rem', fontSize: '1.05rem' }}
+            >
+              📄 Generar Presupuesto
+            </button>
+            <button 
+              onClick={() => router.push("/proforma")}
+              disabled={cartItems.length === 0} 
+              className="btn btn-outline"
+              style={{ padding: '0.9rem', fontSize: '1.05rem', borderColor: 'var(--primary)', color: 'var(--primary)' }}
+            >
+              🧾 Generar Factura Proforma
+            </button>
+          </div>
+        </div>
+
+        <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <h3 style={{ fontSize: '1.1rem', margin: 0 }}>📩 Enviar solo Folletos Técnicos</h3>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: 0 }}>
+            Envía directamente los enlaces de los folletos técnicos por WhatsApp o correo electrónico.
+          </p>
+          <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
+            <button 
+              onClick={handleWhatsApp} 
+              disabled={cartItems.length === 0} 
+              className="btn btn-primary" 
+              style={{ padding: '0.9rem', fontSize: '1.05rem', background: '#25D366', color: 'white', border: 'none' }}
+            >
+              📱 Enviar por WhatsApp
+            </button>
+            
+            <button 
+              onClick={handleEmail}
+              disabled={cartItems.length === 0} 
+              className="btn btn-outline" 
+              style={{ padding: '0.9rem', fontSize: '1.05rem' }}
+            >
+              📧 Enviar por Email
+            </button>
+          </div>
+        </div>
       </div>
 
       <div style={{ marginTop: '3.5rem', display: 'flex', justifyContent: 'space-between', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>

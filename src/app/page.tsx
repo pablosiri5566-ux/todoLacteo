@@ -15,7 +15,11 @@ export default function Home() {
     phone: "" ,
     establishmentName: "",
     establishmentZone: "",
-    farmSize: ""
+    farmSize: "",
+    cuit: "",
+    direccion: "",
+    localidad: "",
+    ingresosBrutos: ""
   });
 
   useEffect(() => {
@@ -122,7 +126,7 @@ export default function Home() {
           </div>
           
           <div style={{ borderTop: '1px solid var(--border)', margin: '0.5rem 0', paddingTop: '1rem' }}>
-            <h4 style={{ marginBottom: '1rem', color: 'var(--primary)' }}>Datos del Establecimiento</h4>
+            <h4 style={{ marginBottom: '1rem', color: 'var(--primary)' }}>Datos del Establecimiento y Facturación</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <div>
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500 }}>Nombre del establecimiento *</label>
@@ -136,7 +140,7 @@ export default function Home() {
                 />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500 }}>Zona del establecimiento *</label>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500 }}>Zona / Provincia *</label>
                 <input 
                   type="text" 
                   className="input-field" 
@@ -155,6 +159,54 @@ export default function Home() {
                   required
                   value={formData.farmSize}
                   onChange={(e) => setFormData({...formData, farmSize: e.target.value})}
+                />
+              </div>
+              
+              <div style={{ borderTop: '1px dashed var(--border)', margin: '0.5rem 0 0 0', paddingTop: '1rem' }}>
+                <h5 style={{ marginBottom: '1rem', color: 'var(--primary)', fontSize: '0.95rem' }}>Datos Impositivos (para Presupuesto/Proforma)</h5>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500 }}>C.U.I.T. *</label>
+                <input 
+                  type="text" 
+                  className="input-field" 
+                  placeholder="Ej. 30-12345678-9" 
+                  required
+                  value={formData.cuit}
+                  onChange={(e) => setFormData({...formData, cuit: e.target.value})}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500 }}>Dirección Comercial *</label>
+                <input 
+                  type="text" 
+                  className="input-field" 
+                  placeholder="Ej. Av. Rivadavia 1234" 
+                  required
+                  value={formData.direccion}
+                  onChange={(e) => setFormData({...formData, direccion: e.target.value})}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500 }}>Localidad *</label>
+                <input 
+                  type="text" 
+                  className="input-field" 
+                  placeholder="Ej. San Francisco, Córdoba" 
+                  required
+                  value={formData.localidad}
+                  onChange={(e) => setFormData({...formData, localidad: e.target.value})}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.875rem', fontWeight: 500 }}>Ingresos Brutos (Opcional)</label>
+                <input 
+                  type="text" 
+                  className="input-field" 
+                  placeholder="Ej. 123-456789-0" 
+                  value={formData.ingresosBrutos}
+                  onChange={(e) => setFormData({...formData, ingresosBrutos: e.target.value})}
                 />
               </div>
             </div>
