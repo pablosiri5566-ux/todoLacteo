@@ -106,12 +106,6 @@ export default function DocumentoDetalle({ params }: { params: Promise<{ id: str
     return "$";
   };
 
-  const getMonedaText = (m: string) => {
-    if (m === "USD") return "dólares";
-    if (m === "EUR") return "euros";
-    return "pesos";
-  };
-
   // Generate WhatsApp message
   const handleWhatsApp = () => {
     const isBudget = docData.tipo === "presupuesto";
@@ -122,7 +116,6 @@ export default function DocumentoDetalle({ params }: { params: Promise<{ id: str
     text += `Puedes ver el documento oficial, imprimirlo o descargarlo en PDF desde el siguiente enlace:\n🔗 ${docUrl}\n\n`;
     text += `Quedamos a tu disposición.\n\nSaludos,\nEl equipo de Dairy Solutions`;
 
-    // Argentine area code clean up
     let cleanPhone = docData.client.phone?.replace(/[\s\+\-]/g, '') || '';
     if (cleanPhone.length === 10 && !cleanPhone.startsWith('54')) {
       cleanPhone = '549' + cleanPhone;
@@ -153,7 +146,6 @@ export default function DocumentoDetalle({ params }: { params: Promise<{ id: str
     window.location.href = mailto;
   };
 
-  // Render empty rows to match the spreadsheet template look
   const totalGridRows = 12;
   const emptyRowsCount = Math.max(0, totalGridRows - docData.items.length);
   const emptyRows = Array.from({ length: emptyRowsCount });
@@ -203,9 +195,20 @@ export default function DocumentoDetalle({ params }: { params: Promise<{ id: str
         {/* CSS rules for printing */}
         <style dangerouslySetInnerHTML={{__html: `
           @media print {
+            @page {
+              size: A4;
+              margin: 10mm;
+            }
             .no-print { display: none !important; }
             body { background: white !important; color: black !important; padding: 0 !important; margin: 0 !important; }
-            .sheet-container { border: none !important; box-shadow: none !important; max-width: 100% !important; width: 100% !important; padding: 1.5cm !important; margin: 0 !important; }
+            .sheet-container { 
+              border: none !important; 
+              box-shadow: none !important; 
+              max-width: 100% !important; 
+              width: 100% !important; 
+              padding: 0 !important; 
+              margin: 0 !important; 
+            }
           }
           .sheet-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
           .sheet-table th, .sheet-table td { border: 1px solid #000; padding: 6px 8px; text-align: left; }
@@ -223,15 +226,15 @@ export default function DocumentoDetalle({ params }: { params: Promise<{ id: str
               <td style={{ width: '60%', verticalAlign: 'top', borderRight: 'none' }} className="border-bottom-none">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/logo.png" alt="Dairy Solutions Logo" style={{ height: '45px', objectFit: 'contain' }} />
+                  <img src="/logo-dairy.png" alt="Dairy Solutions Logo" style={{ height: '45px', objectFit: 'contain' }} />
                   <div>
                     <h2 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 'bold', fontFamily: 'sans-serif' }}>Dairy Solutions</h2>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 'bold', fontStyle: 'italic' }}>Dairy Solution SRL</span>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 'bold', fontStyle: 'italic' }}>Dairy Solutions SRL</span>
                   </div>
                 </div>
                 <div style={{ fontSize: '0.75rem', lineHeight: '1.3' }}>
                   Sadi Carnot 2390, 1615 Grand Bourg<br />
-                  Cuit: 30 709117714
+                  CUIT: 30-70911771-4
                 </div>
               </td>
               <td style={{ width: '40%', verticalAlign: 'top', borderLeft: 'none' }} className="border-bottom-none">
@@ -275,15 +278,14 @@ export default function DocumentoDetalle({ params }: { params: Promise<{ id: str
         <table className="sheet-table" style={{ marginTop: '-1px' }}>
           <thead>
             <tr>
-              <th style={{ width: '15%', textAlign: 'center' }}>código</th>
-              <th style={{ width: '50%' }}>Descripcion</th>
+              <th style={{ width: '15%', textAlign: 'center' }}>Código</th>
+              <th style={{ width: '50%' }}>Descripción</th>
               <th style={{ width: '13%', textAlign: 'right' }}>{getMonedaSymbol(docData.moneda)} Precio</th>
-              <th style={{ width: '9%', textAlign: 'center' }}>cantidad</th>
-              <th style={{ width: '13%', textAlign: 'right' }}>{getMonedaSymbol(docData.moneda)} total</th>
+              <th style={{ width: '9%', textAlign: 'center' }}>Cant.</th>
+              <th style={{ width: '13%', textAlign: 'right' }}>{getMonedaSymbol(docData.moneda)} Total</th>
             </tr>
           </thead>
           <tbody>
-            {/* Render items */}
             {docData.items.map(item => {
               const itemTotal = item.precio * item.cantidad * (1 - item.descuento / 100);
               return (
@@ -309,7 +311,6 @@ export default function DocumentoDetalle({ params }: { params: Promise<{ id: str
               );
             })}
 
-            {/* Render empty sheet grid rows */}
             {emptyRows.map((_, i) => (
               <tr key={`empty-${i}`} style={{ height: '24px' }}>
                 <td style={{ borderBottom: i === emptyRowsCount - 1 ? '1px solid #000' : '1px solid #eee' }}></td>
@@ -320,15 +321,13 @@ export default function DocumentoDetalle({ params }: { params: Promise<{ id: str
               </tr>
             ))}
 
-            {/* Calculations and summary */}
             <tr>
               <td colSpan={3} rowSpan={3} style={{ verticalAlign: 'top', padding: '10px' }}>
-                {/* Number to words translation */}
                 <div style={{ border: '1px solid #000', padding: '8px', textAlign: 'center', fontWeight: 'bold', fontSize: '0.8rem', minHeight: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4px' }}>
                   {numberToWords(docData.total, docData.moneda)}
                 </div>
                 <div style={{ fontSize: '0.75rem', fontStyle: 'italic' }}>
-                  {docData.ivaIncluido ? "Este precio incluye el iva" : "Precios más IVA"}
+                  {docData.ivaIncluido ? "Este precio incluye el IVA" : "Precios más IVA"}
                 </div>
               </td>
               <td style={{ fontWeight: 'bold', textAlign: 'right' }}>Subtotal</td>
@@ -370,9 +369,9 @@ export default function DocumentoDetalle({ params }: { params: Promise<{ id: str
         )}
 
         {/* Notes and Signature Area */}
-        <div style={{ display: 'flex', marginTop: '0.5rem', gap: '1rem', minHeight: '120px' }}>
+        <div style={{ display: 'flex', marginTop: '0.5rem', gap: '1rem', minHeight: '125px' }}>
           {/* Notes */}
-          <div style={{ flex: '2', border: '1px solid #000', padding: '8px', fontSize: '0.75rem', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ flex: '1.8', border: '1px solid #000', padding: '8px', fontSize: '0.75rem', display: 'flex', flexDirection: 'column' }}>
             <strong>Notas y condiciones comerciales:</strong>
             <p style={{ margin: '4px 0 0 0', whiteSpace: 'pre-wrap', lineHeight: '1.4' }}>
               {docData.notes || "Garantía de fábrica incluida. Plazo de entrega a convenir. Repuestos legítimos BouMatic."}
@@ -380,25 +379,24 @@ export default function DocumentoDetalle({ params }: { params: Promise<{ id: str
           </div>
 
           {/* Signature */}
-          <div style={{ flex: '1', border: '1px solid #000', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: '8px', position: 'relative' }}>
-            {/* SVG Signature representation to look premium and real */}
-            <div style={{ position: 'absolute', top: '15px', width: '80%', height: '50px', opacity: 0.85 }}>
+          <div style={{ flex: '1.2', border: '1px solid #000', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: '8px', position: 'relative' }}>
+            <div style={{ position: 'absolute', top: '10px', width: '85%', height: '55px', opacity: 0.9 }}>
               <svg viewBox="0 0 200 60" style={{ width: '100%', height: '100%' }}>
                 <path d="M 15 35 Q 35 15, 60 30 T 110 25 T 160 20 T 180 30 Q 140 45, 90 40 T 30 35" fill="none" stroke="#0033cc" strokeWidth="2.5" />
                 <path d="M 50 15 L 75 45 M 100 10 L 115 50" fill="none" stroke="#0033cc" strokeWidth="2" />
               </svg>
             </div>
             
-            <div style={{ width: '80%', borderTop: '1px solid #000', textAlign: 'center', paddingTop: '4px', fontSize: '0.75rem' }}>
-              <span style={{ color: '#0033cc', fontWeight: 'bold' }}>Firma</span><br />
-              <span style={{ color: '#0033cc', fontSize: '0.7rem' }}>Dairy Solutions</span>
+            <div style={{ width: '85%', borderTop: '1px dashed #666', textAlign: 'center', paddingTop: '6px', fontSize: '0.75rem', lineHeight: '1.2' }}>
+              <strong style={{ color: '#0033cc' }}>Dairy Solutions SRL</strong><br />
+              <span style={{ color: '#555', fontSize: '0.65rem' }}>Firma Autorizada</span>
             </div>
           </div>
         </div>
 
         {/* Footer legal text */}
         <div style={{ textAlign: 'center', fontSize: '0.65rem', color: '#666', marginTop: '0.5rem' }}>
-          Dairy Solutions SRL - Cuit: 30-70911771-4 - Dirección: Sadi Carnot 2390, Grand Bourg, Buenos Aires.
+          Dairy Solutions SRL - CUIT: 30-70911771-4 - Dirección: Sadi Carnot 2390, Grand Bourg, Buenos Aires.
         </div>
       </div>
     </div>
